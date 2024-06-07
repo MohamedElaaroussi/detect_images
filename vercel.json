@@ -9,7 +9,11 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "m.py"ain
+        "dest": "main.py"
       }
-    ]
+    ],
+    "engines": {
+        "python": "3.12"
+      }
+    
   }
