@@ -1,4 +1,4 @@
-Python 
+Python 3.12.3
 opencv-python
 numpy
 tkinter
