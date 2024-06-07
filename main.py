@@ -162,26 +162,57 @@
 
 
 
-
 import cv2
+import json
 
-# load images
-image1 = cv2.imread("testt.jfif")
-image2 = cv2.imread("testtt.jfif")
+# Load the two images
+image1 = cv2.imread("WhatsApp Image 2024-06-07 at 10.56.57.jpeg")
+image2 = cv2.imread("WhatsApp Image 2024-06-07 at 10.57.00.jpeg")
 
-# compute difference
+# Check if the images were loaded successfully
+if image1 is None:
+    print("Error: Unable to load image1.")
+    exit()
+if image2 is None:
+    print("Error: Unable to load image2.")
+    exit()
+
+# Check the dimensions of the two images
+print(f"Image 1 shape: {image1.shape}")
+print(f"Image 2 shape: {image2.shape}")
+
+# If the images have different dimensions, resize image1 to match image2
+if image1.shape != image2.shape:
+    image1 = cv2.resize(image1, (image2.shape[1], image2.shape[0]))
+    print("Resized image1 to match image2 dimensions.")
+
+# Compute the difference between the two images
 difference = cv2.subtract(image1, image2)
 
-# color the mask red
+# Convert the difference to grayscale and apply Otsu's thresholding
 Conv_hsv_Gray = cv2.cvtColor(difference, cv2.COLOR_BGR2GRAY)
-ret, mask = cv2.threshold(Conv_hsv_Gray, 0, 255,cv2.THRESH_BINARY_INV |cv2.THRESH_OTSU)
-difference[mask != 255] = [0, 0, 255]
+ret, mask = cv2.threshold(Conv_hsv_Gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
 
-# add the red mask to the images to make the differences obvious
+# Color the differences in red
+difference[mask != 255] = [0, 0, 255]
 image1[mask != 255] = [0, 0, 255]
 image2[mask != 255] = [0, 0, 255]
 
-# store images
+# Save the modified images
 cv2.imwrite('diffOverImage1.png', image1)
-cv2.imwrite('diffOverImage2.png', image1)
-cv2.imwrite('diff.png', difference)
+cv2.imwrite('diffOverImage2.png', image2)
+
+# Get the number of connected components (objects) in the mask
+num_objects, labels, stats, centroids = cv2.connectedComponentsWithStats(mask, connectivity=8)
+
+# Create a list of object names for objects with width and height > 10 pixels
+object_names = []
+for i in range(1, num_objects):
+    width = stats[i, 2]
+    height = stats[i, 3]
+    if width > 10 and height > 10:
+        object_names.append(f"object_{i}")
+
+# Save the list of object names to a JSON file
+with open('difference.json', 'w') as f:
+    json.dump({'red_objects': object_names}, f)
