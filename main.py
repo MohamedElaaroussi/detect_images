@@ -95,15 +95,18 @@ def generate_difference():
 
         with open(file_path, 'w') as f:
             json.dump(json_data, f)
-        # print(f"JSON file downloaded to: {file_path}")
         print("JSON file downloaded to: {}".format(file_path))
+            
+        # print(f"JSON file downloaded to: {file_path}")
 
         # Open a file dialog to select the image download location
         image_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG Files", "*.png")], initialfile="difference.png")
         if image_path:
             cv2.imwrite(image_path, difference)
-            # print(f"Image file downloaded to: {image_path}")
             print("Image file downloaded to: {}".format(image_path))
+            
+            # print(f"Image file downloaded to: {image_path}")
+            
 
 # Create the "Generate Difference" button
 generate_button = tk.Button(root, text="Generate Difference", command=generate_difference)
