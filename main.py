@@ -95,7 +95,8 @@ def generate_difference():
 
         with open(file_path, 'w') as f:
             json.dump(json_data, f)
-        print(f"JSON file downloaded to: {file_path}")
+        # print(f"JSON file downloaded to: {file_path}")
+        print("JSON file downloaded to: {}".format(file_path))
 
         # Open a file dialog to select the image download location
         image_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG Files", "*.png")], initialfile="difference.png")
