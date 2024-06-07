@@ -1,4 +1,4 @@
-Python 3.9
+Python==3.9
 opencv-python
 numpy
 tkinter
