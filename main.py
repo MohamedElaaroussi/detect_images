@@ -39,7 +39,8 @@ def select_image(image_name):
             image1 = cv2.imread(file_path)
         else:
             image2 = cv2.imread(file_path)
-        print(f"Selected {image_name}: {file_path}")
+        # print(f"Selected {image_name}: {file_path}")
+        print("Selected {}: {}".format(image_name, file_path))
 
 def generate_difference():
     global image1, image2
