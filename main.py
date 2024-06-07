@@ -54,8 +54,10 @@ def generate_difference():
         return
 
     # Check the dimensions of the two images
-    print(f"Image 1 shape: {image1.shape}")
-    print(f"Image 2 shape: {image2.shape}")
+    # print(f"Image 1 shape: {image1.shape}")
+    # print(f"Image 2 shape: {image2.shape}")
+    print("Image 1 shape: {}".format(image1.shape))
+    print("Image 2 shape: {}".format(image2.shape))
 
     # If the images have different dimensions, resize image1 to match image2
     if image1.shape != image2.shape:
@@ -75,8 +77,10 @@ def generate_difference():
     image2[mask != 255] = [0, 0, 255]
 
     # Save the modified images
-    cv2.imwrite('diffOverImage1.png', image1)
-    cv2.imwrite('diffOverImage2.png', image2)
+    cv2.imwrite("diffOverImage1.png: {}".format(image1))
+    cv2.imwrite("diffOverImage2.png: {}".format(image2))
+    # print("diffOverImage1.png: {}".format(image1))
+    # cv2.imwrite('diffOverImage2.png', image2)
 
     # Open a file dialog to select the download location
     file_path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON Files", "*.json")], initialfile="difference.json")
@@ -86,7 +90,8 @@ def generate_difference():
         contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         for cnt in contours:
             x, y, w, h = cv2.boundingRect(cnt)
-            json_data['red_objects'].append(f"Object at ({x}, {y}) with size ({w}, {h})")
+            # json_data['red_objects'].append(f"Object at ({x}, {y}) with size ({w}, {h})")
+            json_data['red_objects'].append("Object at ({}, {}) with size ({}, {})".format(x, y, w, h))
 
         with open(file_path, 'w') as f:
             json.dump(json_data, f)
@@ -96,7 +101,8 @@ def generate_difference():
         image_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG Files", "*.png")], initialfile="difference.png")
         if image_path:
             cv2.imwrite(image_path, difference)
-            print(f"Image file downloaded to: {image_path}")
+            # print(f"Image file downloaded to: {image_path}")
+            print("Image file downloaded to: {}".format(image_path))
 
 # Create the "Generate Difference" button
 generate_button = tk.Button(root, text="Generate Difference", command=generate_difference)
